@@ -15,7 +15,7 @@ A continuación, se utiliza la herramienta **oledump** para examinar los flujos 
 
 En este contexto, los **atributos** corresponden a metadatos asociados a una macro VBA. Estos pueden incluir información como el nombre de la macro, su descripción y otras propiedades utilizadas para su identificación o configuración. Aunque forman parte de la estructura del proyecto VBA, no contienen el código encargado de ejecutar acciones o realizar operaciones.
 
-![Pasted image 20260706162208](Pasted%20image%2020260706162208.png)
+![Pasted image 20260706162208](../../Fotos/Pasted%20image%2020260706162208.png)
 
 **Respuesta:** 16
 
@@ -23,66 +23,66 @@ En este contexto, los **atributos** corresponden a metadatos asociados a una mac
 
 **`olevba`** es una herramienta de la suite **oletools** que se utiliza para **extraer y analizar macros VBA** contenidas en documentos de Microsoft Office. Es muy utilizada en análisis de malware porque muchas campañas maliciosas emplean documentos con macros para ejecutar código en el equipo de la víctima.
 
-![Pasted image 20260706163901](Pasted%20image%2020260706163901.png)
+![Pasted image 20260706163901](../../Fotos/Pasted%20image%2020260706163901.png)
 
-![Pasted image 20260706163816](Pasted%20image%2020260706163816.png)
+![Pasted image 20260706163816](../../Fotos/Pasted%20image%2020260706163816.png)
 
 **Respuesta:** Document_open
 
 ¿Qué familia de malware intentaba eliminar este maldoc?
 
-![Pasted image 20260706164820](Pasted%20image%2020260706164820.png)
+![Pasted image 20260706164820](../../Fotos/Pasted%20image%2020260706164820.png)
 
-![Pasted image 20260706172027](Pasted%20image%2020260706172027.png)
+![Pasted image 20260706172027](../../Fotos/Pasted%20image%2020260706172027.png)
 
 **Respuesta:** emotet
 
 ¿Qué flujo es responsable del almacenamiento de la cadena codificada en base64?
 
-![Pasted image 20260706172239](Pasted%20image%2020260706172239.png)
+![Pasted image 20260706172239](../../Fotos/Pasted%20image%2020260706172239.png)
 
-![Pasted image 20260706172558](Pasted%20image%2020260706172558.png)
+![Pasted image 20260706172558](../../Fotos/Pasted%20image%2020260706172558.png)
 
 El flujo **Macros/roubhaol/i09/o** llama la atención debido a su tamaño relativamente grande, lo que puede indicar la presencia de información ofuscada o codificada que requiere un análisis más detallado.
 
-![Pasted image 20260706174809](Pasted%20image%2020260706174809.png)
+![Pasted image 20260706174809](../../Fotos/Pasted%20image%2020260706174809.png)
 
 **Respuesta:** 34
 
 Este documento contiene un formulario de usuario. Proporciona el nombre.
 
-![Pasted image 20260706175520](Pasted%20image%2020260706175520.png)
+![Pasted image 20260706175520](../../Fotos/Pasted%20image%2020260706175520.png)
 
 **Respuesta:** roubhaol
 
 Este documento contiene una cadena codificada en Base64 ofuscada; ¿Qué valor se usa para rellenar (o ofuscar) esta cadena?
 
-![Pasted image 20260706174705](Pasted%20image%2020260706174705.png)
+![Pasted image 20260706174705](../../Fotos/Pasted%20image%2020260706174705.png)
 
-![Pasted image 20260706174637](Pasted%20image%2020260706174637.png)
+![Pasted image 20260706174637](../../Fotos/Pasted%20image%2020260706174637.png)
 
-![Pasted image 20260706180705](Pasted%20image%2020260706180705.png)
+![Pasted image 20260706180705](../../Fotos/Pasted%20image%2020260706180705.png)
 
-![Pasted image 20260706180955](Pasted%20image%2020260706180955.png)
+![Pasted image 20260706180955](../../Fotos/Pasted%20image%2020260706180955.png)
 
 **Respuesta:**  `2342772g3&*gs7712ffvs626fq`
 
 ¿Qué programa ejecuta la cadena codificada en Base64?
 
-![Pasted image 20260706184700](Pasted%20image%2020260706184700.png)
+![Pasted image 20260706184700](../../Fotos/Pasted%20image%2020260706184700.png)
 
-![Pasted image 20260706184730](Pasted%20image%2020260706184730.png)
+![Pasted image 20260706184730](../../Fotos/Pasted%20image%2020260706184730.png)
 
 **Respuesta:** powershell
 
 ¿Qué clase WMI se utiliza para crear el proceso de lanzamiento del troyano?
 
-![Pasted image 20260706185120](Pasted%20image%2020260706185120.png)
+![Pasted image 20260706185120](../../Fotos/Pasted%20image%2020260706185120.png)
 
 **Respuesta:** Win32_Process
 
 Se contactó con varios dominios para descargar un troyano. Proporciona el primer FQDN según la pista proporcionada.
 
-![Pasted image 20260706185533](Pasted%20image%2020260706185533.png)
+![Pasted image 20260706185533](../../Fotos/Pasted%20image%2020260706185533.png)
 
 **Respuesta:** haoqunkong.com
