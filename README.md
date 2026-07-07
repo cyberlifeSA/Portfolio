@@ -48,7 +48,7 @@ Mi objetivo es incorporarme a un equipo de Seguridad Operacional como **SOC Anal
 
 ## SIEM
 - Splunk Enterprise
-- Splunk Enterprise Security *(en aprendizaje)*
+- Splunk Enterprise Security
 - Elastic
 - Consultas SPL
 - Dashboards
