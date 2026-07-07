@@ -4,6 +4,7 @@
 Comprender el alcance del ataque e identificar qué versiones presentan comportamientos maliciosos es crucial para tomar decisiones informadas si estas versiones comprometidas están presentes en la organización. ¿Cuántas versiones de 3CX **en Windows** han sido marcadas como malware?
 
 ![Pasted image 20260704164204](../../Fotos/Pasted%20image%2020260704164204.png)
+
 2
 
 Determinar la antigüedad del malware puede ayudar a evaluar el alcance del compromiso y a seguir la evolución de las familias y variantes de malware. ¿Cuál es la hora de creación UTC del malware?`.msi`
