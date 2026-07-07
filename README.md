@@ -1,10 +1,5 @@
----
-title: Portfolio - Sebastian Lemoine
-description: Portafolio Técnico | Blue Team | SOC Analyst
-tags: [ciberseguridad, blueteam, soc, portfolio]
----
-
 # Portfolio
+
 # Sebastian Lemoine
 **Estudiante de Ingeniería en Ciberseguridad | Futuro SOC Analyst | Blue Team**
 
