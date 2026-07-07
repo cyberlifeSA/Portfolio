@@ -4,45 +4,69 @@
 Necesitamos en Linux hacer montura o utilizar una herramienta equivalente ya que la idea era utilizar FTK Imager sin embargo por el entorno simplemente hicimos monturas.
 
 El atacante estaba realizando un ataque de fuerza bruta. ¿Qué cuenta activó la alerta?
+
 ![[../../../../Fotos/Pasted image 20260706204238.png]]
+
 `/var/log/auth.log`
+
 ![[../../../../Fotos/Pasted image 20260706204213.png]]
+
 **Respuesta:** Ulysses
 
 Durante la investigación de los registros. ¿Cuántos intentos fallidos de inicio de sesión fueron alertados por el mismo usuario?
+
 `/var/log/auth.log`
+
 ![[../../../../Fotos/Pasted image 20260706204741.png]]
+
 **Respuesta:** 32
 
 ¿Qué tipo de sistema se ejecuta en el servidor objetivo?
+
 `/etc/issue`
+
 ![[../../../../Fotos/Pasted image 20260706204955.png]]
+
 **Respuesta:** Debian GNU/Linux 5.0
 
 ¿Cuál es la dirección IP de la víctima?
+
 `/var/lib/dhcp3/dhclient.eth0.leases`
+
 `http://mnt/Linux/var/log/syslog`
+
 ![[../../../../Fotos/Pasted image 20260706205555.png]]
+
 **Respuesta:** 192.168.56.102
 
 ¿Cuáles son las dos direcciones IP del atacante?
+
 En la pregunta 2 vimos multiples intentos de acceso (Brute Force) desde una ip especifica.192.168.56.1
+
 ![[../../../../Fotos/Pasted image 20260706210936.png]]
 
 `sudo grep -r -F -l '192.168.56.1' /mnt/Linux/var/log`
+
 `cat /mnt/Linux/var/log/exim4/rejectlog`
+
 ![[../../../../Fotos/Pasted image 20260706211214.png]]
 
 ![[../../../../Fotos/Pasted image 20260706213131.png]]
-192.168.56.1,192.168.56.101
+
+**Respuesta:** 192.168.56.1,192.168.56.101
 
 ¿Cuál es el número PID del servicio que estaba ejecutándose en el servidor?`nc`
+
 `vol.py --profile=LinuxDebian5_26x86 -f victoria-v8.memdump.img linux_pslis`
+
 ![[../../../../Fotos/Pasted image 20260706220437.png]]
-2169
+
+**Respuesta:** 2169
 
 ¿Qué servicio se explotó para acceder al sistema?
+
 `vol.py --profile=LinuxDebian5_26x86 -f victoria-v8.memdump.img linux_bash`
+
 - **apt-get remove exim4** → Elimina el paquete principal de Exim4 (servidor de correo).
 - **apt-get remove exim4-base** → Elimina el paquete base de Exim4.
 - **apt-get remove exim4-daemon-light** → Elimina la versión ligera del demonio de Exim4.
@@ -66,28 +90,45 @@ En la pregunta 2 vimos multiples intentos de acceso (Brute Force) desde una ip e
 - **rm -rf exim4/** → Borra la carpeta exim4 y todo su contenido.
 - **vi .bash_history**, **vi .ssh/known_hosts**, etc. → Edita archivos de historial y configuración SSH.
 - **update-exim4.conf** → Actualiza la configuración de Exim4.
+
 ![[../../../../Fotos/Pasted image 20260706222453.png]]
+
 **Respuesta:** Exim4
 
 ¿Cuál es el número CVE de vulnerabilidades explotadas?
+
 IOCs : Puerto 25 - Version de Exim4 - Versión de la distribución Debian - SSH RCE
+
 **Respuesta:** CVE-2010-4344
 
 Durante este ataque, el atacante descargó dos archivos al servidor. Proporciona el nombre del archivo comprimido.
+
 `/var/log/exim4/rejectlog`
+
 ![[../../../../Fotos/Pasted image 20260706223914.png]]
+
 **Respuesta:** rk.tar
 
 Durante la investigación, dos puertos participaron en el proceso de exfiltración de datos. ¿Qué puerto usó el comando para la exfiltración?`nc`
+
 `vol.py --profile=LinuxDebian5_26x86 -f victoria-v8.memdump.img linux_bash`
+
 ![[../../../../Fotos/Pasted image 20260706224231.png]]
+
 `vol.py --profile=LinuxDebian5_26x86 -f victoria-v8.memdump.img linux_netstat`
+
 ![[../../../../Fotos/Pasted image 20260706224326.png]]
+
 **Respuesta:** 8888
 
 ¿Qué puerto intentó bloquear el atacante en el cortafuegos?
+
 ![[../../../../Fotos/Pasted image 20260706224844.png]]
+
 `tar -xvf rk.tar 'rk/install.sh'`
+
 ![[../../../../Fotos/Pasted image 20260706225004.png]]
+
 ![[../../../../Fotos/Pasted image 20260706224945.png]]
+
 **Respuesta:** 45295
