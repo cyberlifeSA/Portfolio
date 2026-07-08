@@ -17,6 +17,7 @@ index=attack_lab source="C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\C
 ```
 
 ![Pasted image 20260517122709](../Fotos/Pasted%20image%2020260517122709.png)
+
 ## ¿Qué es `cscript.exe`?
 `cscript.exe` = Windows Script Host en consola.
 Se usa para ejecutar:

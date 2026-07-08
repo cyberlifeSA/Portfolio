@@ -21,6 +21,7 @@ index=attack_lab source="c:\\logs\\samples-splunk\\evtx-attack-samples-master\\c
 **Ordenado al revez** (en esta primera parte las primeras fotos son las ultimas y en la segunda van en orden ya que el filtro no sorteo bien de mas viejo a nuevo aun aplicadose, seguramente por tema de parseo)
 
 ![Pasted image 20260502130811](../Fotos/Pasted%20image%2020260502130811.png)
+
 - Puerto: **1900 UDP**
 - Uso:
     - UPnP (dispositivos en red)
@@ -64,7 +65,9 @@ Esto es típico de:
 👉 “Los eventos corresponden a tráfico legítimo de descubrimiento de servicios en red (SSDP y WS-Discovery), generado por servicios del sistema bajo svchost.exe, utilizando multicast en IPv4 e IPv6 y comunicación loopback para procesamiento interno.”
 
 ---
+
 ![Pasted image 20260502133846](../Fotos/Pasted%20image%2020260502133846.png)
+
 👉 “El servicio bajo svchost.exe inicia una comunicación saliente desde loopback hacia un grupo multicast (239.255.255.250) usando WS-Discovery (UDP/3702), con el objetivo de anunciar o descubrir servicios en la red local.”
 
  *🟢 NORMAL (lo que tienes)*
@@ -86,6 +89,7 @@ Esto es típico de:
     - `rundll32`
 
 ![Pasted image 20260502134445](../Fotos/Pasted%20image%2020260502134445.png)
+
 🔹 `AtBroker.exe`
 📌 Qué es:
 - **Accessibility Tool Broker**
@@ -155,6 +159,7 @@ Porque:
 ¿Quién lanzó `rdpclip.exe`?
 
 ![Pasted image 20260502141613](../Fotos/Pasted%20image%2020260502141613.png)
+
 `TSTheme.exe`
 👉 ¿Qué es?
 - Servicio relacionado con:
@@ -192,8 +197,11 @@ smss.exe
 ![Pasted image 20260502165002](../Fotos/Pasted%20image%2020260502165002.png)
 
 ----
+
 ![Pasted image 20260502165536](../Fotos/Pasted%20image%2020260502165536.png)
+
 ![Pasted image 20260502165553](../Fotos/Pasted%20image%2020260502165553.png)
+
 👉 “Se confirma uso de credenciales explícitas porque el evento muestra que un proceso bajo contexto SYSTEM intentó autenticarse como otro usuario (`admin01`), lo que implica que se proporcionaron credenciales manualmente (Event ID 4648).”
 
 LogonType: 10 (RemoteInteractive (RDP) / 👉 Hubo un **login por RDP**)
@@ -207,6 +215,7 @@ Esto significa:
     - tareas programadas
 
 ![Pasted image 20260502165752](../Fotos/Pasted%20image%2020260502165752.png)
+
 👉 “Se asignaron privilegios especiales”
 Usuario: `admin01`
 Privilegios:
@@ -219,6 +228,7 @@ Privilegios:
 👉 🔥 En un CTF: Esto ya es **post-exploitation viable**
 
 ![Pasted image 20260502165940](../Fotos/Pasted%20image%2020260502165940.png)
+
 🔹 Tráfico de `lsass.exe`
 Puerto destino: **88**
 👉 🔥 ¿Qué es?
@@ -229,6 +239,7 @@ IP destino:
 - `10.0.2.15`
 
 ![Pasted image 20260502170138](../Fotos/Pasted%20image%2020260502170138.png)
+
 🔹 Tráfico puerto 445
 👉 SMB
 👉 Comunicación interna de red (shares, autenticación)
@@ -325,20 +336,26 @@ svchost → multicast normal
 ```
 
 ---
+
 ![Pasted image 20260503140516](../Fotos/Pasted%20image%2020260503140516.png)
+
 Repetidos eventos de lsass.exe del host accedido al DC
 
 ![Pasted image 20260503140721](../Fotos/Pasted%20image%2020260503140721.png)
+
 `plunk.exe` : herramienta para realizar conexiones ssh legitima pero en el contexto puede ser malicioso
 Habiendo una conexion externa al hsot  y luego el uso de lsass y luego ver esto podria ser una **posible actividad de motivimiento lateral**
 
 ![Pasted image 20260503141032](../Fotos/Pasted%20image%2020260503141032.png)
+
 `UI0Detect.exe`: Se crea proceso de ubicacion correcta, bajo cuenta de SYSTEM, es registro normal de actividad
 
 ![Pasted image 20260503141519](../Fotos/Pasted%20image%2020260503141519.png)
+
 Este evento el encabezado indica basicamente qu el firewall de windows reviso y permitio esta conexion
 
 ![Pasted image 20260503141759](../Fotos/Pasted%20image%2020260503141759.png)
+
 Descubrimiento de red mediante broadcast
 
 ![Pasted image 20260503153531](../Fotos/Pasted%20image%2020260503153531.png)

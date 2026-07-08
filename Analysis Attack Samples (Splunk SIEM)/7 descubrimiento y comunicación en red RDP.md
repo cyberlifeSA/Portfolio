@@ -32,6 +32,7 @@ index=attack_lab source="C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\C
 ```
 
 ![Pasted image 20260504124824](../Fotos/Pasted%20image%2020260504124824.png)
+
 `plink.exe` = cliente de **SSH por línea de comandos** (parte de PuTTY)
 
  🧠 Análisis de parámetros
@@ -98,6 +99,7 @@ Pero:
 “Disfrazo SSH como tráfico web”
 
 ![Pasted image 20260504150719](../Fotos/Pasted%20image%2020260504150719.png)
+
  ⚠️ Punto clave
 👉 `UI0Detect.exe` **NO es el ataque**
 👉 Es un **efecto secundario**
@@ -108,6 +110,7 @@ Pero:
 - Puede estar relacionado con acceso remoto
 
 ![Pasted image 20260504153550](../Fotos/Pasted%20image%2020260504153550.png)
+
 - `smss` → crea sesiones
 - `csrss` → maneja interfaz
 - `winlogon` → login
@@ -116,6 +119,7 @@ Pero:
 ✔️ Todo esto es **normal**
 
 ![Pasted image 20260504155405](../Fotos/Pasted%20image%2020260504155405.png)
+
 🧠 **DLLs cargadas**
 ```
 VBoxDisp.dll (Oracle)vga.dll (Microsoft)
@@ -124,6 +128,7 @@ VBoxDisp.dll (Oracle)vga.dll (Microsoft)
 ✔️ Normal en lab
 
 ![Pasted image 20260504155608](../Fotos/Pasted%20image%2020260504155608.png)## 🔥 **TSTheme.exe**
+
 ```
 Parent: svchost.exe -k DcomLaunchUser: PC01\IEUserIntegrity: High
 ```
@@ -149,6 +154,7 @@ Esto ocurre después de que viste:
 `ms-wbt-server` 👉 Que hay **tráfico asociado a RDP (puerto 3389)**
 
 ![Pasted image 20260504155830](../Fotos/Pasted%20image%2020260504155830.png)
+
  🔎 Qué es LLMNR
 👉 **LLMNR**
 - Resolución de nombres en red local
@@ -165,6 +171,7 @@ LLMNR se usa para:
 🔴 Acceso remoto exitoso mediante túnel SSH + sesión RDP (NO NORMAL)
 
 ![Pasted image 20260504172539](../Fotos/Pasted%20image%2020260504172539.png)
+
 La máquina está intentando resolver nombres en la red local
 *LLMNR es peligroso porque permite:*
 - **LLMNR poisoning**
@@ -176,6 +183,7 @@ La máquina está intentando resolver nombres en la red local
 👉 Resolver **nombres → IP**
 
 ![Pasted image 20260504172821](../Fotos/Pasted%20image%2020260504172821.png)
+
 *Tráfico NetBIOS*
 👉 Esto es:
 - Comunicación SMB (compartición de archivos)
@@ -189,6 +197,7 @@ Después de acceso inicial, esto puede indicar:
 La máquina está intentando establecer una **sesión SMB (compartición de red)** con otra máquina
 
 ![Pasted image 20260504172954](../Fotos/Pasted%20image%2020260504172954.png)
+
 *Tráfico WS-Discovery*
 - Descubrimiento de dispositivos en red
 - Similar a SSDP

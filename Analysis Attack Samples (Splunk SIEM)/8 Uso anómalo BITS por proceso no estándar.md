@@ -8,6 +8,7 @@ index=attack_lab source="C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\C
 ```
 
 ![Pasted image 20260505122856](../Fotos/Pasted%20image%2020260505122856.png)
+
 Son logs del servicio **Background Intelligent Transfer Service (BITS)**
  📌 BITS (Background Intelligent Transfer Service)
 - Servicio de Windows que descarga archivos en segundo plano
@@ -24,6 +25,7 @@ Son logs del servicio **Background Intelligent Transfer Service (BITS)**
 La máquina NO puede traducir el dominio (ej: g.live.com) a una IP
 
 ![Pasted image 20260505123014](../Fotos/Pasted%20image%2020260505123014.png)
+
 🧠 4. Interpretación (esto es lo que te evalúan en CDSA)
 🔹 Comportamiento observado:
 - Múltiples intentos de descarga
@@ -83,8 +85,11 @@ Los eventos analizados corresponden al servicio BITS intentando realizar múltip
 |Windows Font / Config|`svchost.exe`|Sistema|
 |Microsoft Maps|`svchost.exe`|Sistema|
 |BITS (core)|`svchost.exe`|Infraestructura|
+
  ![Pasted image 20260505125121](../Fotos/Pasted%20image%2020260505125121.png)
+
  ![Pasted image 20260505125151](../Fotos/Pasted%20image%2020260505125151.png)
+
  ![Pasted image 20260505125209](../Fotos/Pasted%20image%2020260505125209.png)
  
  🔁 Ciclo repetitivo:
@@ -113,6 +118,7 @@ Ordenado por probabilidad:
 - Sin rutas sospechosas
 
 ![Pasted image 20260505131906](../Fotos/Pasted%20image%2020260505131906.png)
+
 - Uso de ruta en:
     - `AppData\Local\{GUID}`
 - BITS creando jobs sobre rutas no típicas de instalación
@@ -123,12 +129,14 @@ Porque:
 - Muchos retries parecen C2 beaconing
 
 ![Pasted image 20260505141813](../Fotos/Pasted%20image%2020260505141813.png)*Cambio de comportamiento*
+
 ```
 código 0x0 → SUCCESS
 ```
 ✔️ Ahora sí hay conexión
 
 ![Pasted image 20260505141952](../Fotos/Pasted%20image%2020260505141952.png)
+
 🚨 4. Evento MÁS IMPORTANTE (posible detección real)
 ```
 BITS inició descarga desde:http://r3---sn-5hnedn7z.gvt1.com/.../GoogleUpdateSetup.exe
@@ -168,14 +176,21 @@ Y normalmente acompañado de:
 ```
 Código de estado: 0x0 (SUCCESS)
 ```
+
 ![Pasted image 20260505144431](../Fotos/Pasted%20image%2020260505144431.png)
+
 ![Pasted image 20260505144649](../Fotos/Pasted%20image%2020260505144649.png)
+
 ![Pasted image 20260505155315](../Fotos/Pasted%20image%2020260505155315.png)
 
 Se observa actividad del servicio BITS generando múltiples trabajos de transferencia asociados a procesos legítimos como GoogleUpdate.exe y OneDriveStandaloneUpdater.exe. Inicialmente, los intentos fallan con el código 0x80072EE7, indicando problemas de resolución DNS. Posteriormente, la conectividad se restablece y se completan descargas exitosas desde dominios legítimos. No se identifican indicadores claros de compromiso, aunque el uso intensivo de BITS representa una técnica común en ataques tipo Living-off-the-Land.
 
 ---
-![Pasted image 20260506115448](../Fotos/Pasted%20image%2020260506115448.png)Primer bloque (12:55:52) → 🔥 comportamiento CRÍTICO a analizar
+
+![Pasted image 20260506115448](../Fotos/Pasted%20image%2020260506115448.png)
+
+Primer bloque (12:55:52) → 🔥 comportamiento CRÍTICO a 
+analizar
 Proceso: `GoogleUpdate.exe`
 Eventos:
 - `3` → crea job
@@ -183,8 +198,11 @@ Eventos:
 - `61` → falla DNS (`0x80072EE7`)
 
 ![Pasted image 20260506131702](../Fotos/Pasted%20image%2020260506131702.png)
+
 la misma que arrba
+
 ![Pasted image 20260506131728](../Fotos/Pasted%20image%2020260506131728.png)
+
 **Notepad.exe NO debería:**
 - Crear jobs BITS ❌
 - Descargar archivos ❌
@@ -204,6 +222,7 @@ la misma que arrba
 Se identificaron trabajos BITS iniciados por `notepad.exe`, descargando recursos desde dominios externos (Imgur), lo cual no corresponde al comportamiento esperado del sistema y podría indicar ejecución de herramientas maliciosas o técnicas LOLBins.
 
 ![Pasted image 20260506141335](../Fotos/Pasted%20image%2020260506141335.png)
+
 ```
 Ruta de proceso: C:\Windows\SysWOW64\notepad.exe
 ```

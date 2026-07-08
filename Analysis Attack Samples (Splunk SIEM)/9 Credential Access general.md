@@ -8,6 +8,7 @@ index=attack_lab source="C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\C
 ```
 
 ![Pasted image 20260506144834](../Fotos/Pasted%20image%2020260506144834.png)
+
 🔴EVENTO INICIAL CRÍTICO
 🔹 EventCode 1102
 - **Qué es:** _Audit Log Cleared_ (borrado de logs)
@@ -20,6 +21,7 @@ index=attack_lab source="C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\C
 1102 = indicador fuerte de intrusión (Defense Evasion)
 
 ![Pasted image 20260506151502](../Fotos/Pasted%20image%2020260506151502.png)
+
 🟠 2. ACCESO A OBJETOS AD (RECON / PREPARACIÓN)
 🔹 EventCode 4662
 - **Qué es:** _An operation was performed on an object_
@@ -41,6 +43,7 @@ Es un evento generado en el **Domain Controller** relacionado con **Active Direc
 ![Pasted image 20260506151302](../Fotos/Pasted%20image%2020260506151302.png)
 
 ![Pasted image 20260506162153](../Fotos/Pasted%20image%2020260506162153.png)
+
 🔴 3. MODIFICACIÓN DE GPO (PERSISTENCIA / PRIV ESC)
 🔹 EventCode 5136
 - **Qué es:** _Directory Service Object Modified_
@@ -67,6 +70,7 @@ Modificar `versionNumber`:
 `bob` está modificando una **Group Policy (GPO)**
 
 ![Pasted image 20260506164906](../Fotos/Pasted%20image%2020260506164906.png)
+
 🔴 4. CAMBIOS EN AUDITORÍA (DEFENSE EVASION)
 🔹 EventCode 4719
 - **Qué es:** _System audit policy changed_
@@ -82,6 +86,7 @@ Modificar `versionNumber`:
 4719 después de 1102 = patrón claro de evasión
 
 ![Pasted image 20260506171006](../Fotos/Pasted%20image%2020260506171006.png)
+
 🔴 5. MODIFICACIÓN DE USUARIO (POSIBLE PRIV ESC)
 🔹 EventCode 4738
 - **Qué es:** _User account changed_
@@ -104,6 +109,7 @@ Modificar `versionNumber`:
 - usa esos permisos para **cambiar atributos de `alice`**
 
 ![Pasted image 20260507095537](../Fotos/Pasted%20image%2020260507095537.png)
+
 🔴6. CAMBIO DE CUENTA DE EQUIPO
 🔹 EventCode 4742
 - **Qué es:** _Computer account changed_

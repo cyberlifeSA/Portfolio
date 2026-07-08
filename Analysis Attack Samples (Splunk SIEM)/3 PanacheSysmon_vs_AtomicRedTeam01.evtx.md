@@ -19,6 +19,7 @@ index=attack_lab source=C:\\Logs\\SAMPLES-SPLUNK\\EVTX-ATTACK-SAMPLES-master\\Au
 ```
 
 ![Pasted image 20260426122409](../Fotos/Pasted%20image%2020260426122409.png)
+
 - **svchost.exe** → proceso legítimo de Windows (Service Host)
 - **consent.exe** → proceso de UAC (User Account Control prompt)
 
@@ -42,7 +43,9 @@ T1548.002 – Bypass UAC
 - Elevación de privilegios mediante UAC prompt manipulation
 
 ![Pasted image 20260426122825](../Fotos/Pasted%20image%2020260426122825.png)
+
 ![Pasted image 20260426122838](../Fotos/Pasted%20image%2020260426122838.png)
+
 - **explorer.exe** → shell del usuario (GUI)
 - **cmd.exe** → intérprete de comandos
 
@@ -55,6 +58,7 @@ T1204 – User Execution
 
 
 ![Pasted image 20260426131050](../Fotos/Pasted%20image%2020260426131050.png)
+
 🔥 Windows está iniciando un “servicio”
 
 - ejecución automática al iniciar Windows
@@ -67,13 +71,16 @@ T1050 – New Service
 - usado para persistencia o ejecución automática
 
 ![Pasted image 20260426150309](../Fotos/Pasted%20image%2020260426150309.png)
+
 👉 PowerShell ejecutándose en el sistema
 👉 carga o uso de una DLL desde TEMP
 **PowerShell + DLL en TEMP = patrón de ataque**
 
 
 ![Pasted image 20260426153009](../Fotos/Pasted%20image%2020260426153009.png)
+
 ![Pasted image 20260426153026](../Fotos/Pasted%20image%2020260426153026.png)
+
 Se está creando un servicio nuevo en Windows 
 
 `sc.exe create AtomicTestService`
@@ -87,6 +94,7 @@ Se está creando un servicio nuevo en Windows
 
 
 ![Pasted image 20260426151643](../Fotos/Pasted%20image%2020260426151643.png)
+
 👉 Define **qué ejecutable lanza el servicio** (🔥 **El sistema está configurando un servicio de Windows y definiendo qué ejecutable va a lanzar**)
 💥 En este caso:
 - el servicio “AtomicTestService”
@@ -94,6 +102,7 @@ Se está creando un servicio nuevo en Windows
 
 
 ![Pasted image 20260426151709](../Fotos/Pasted%20image%2020260426151709.png)
+
 Controla cómo inicia el servicio:
 
 |Valor|Significado|
@@ -111,9 +120,11 @@ Persistencia no es “se ejecuta solo”, es “queda instalado para ejecutarse 
 
 
 ![Pasted image 20260426132913](../Fotos/Pasted%20image%2020260426132913.png)
+
 ![Pasted image 20260426132930](../Fotos/Pasted%20image%2020260426132930.png)
 
 ![Pasted image 20260426135633](../Fotos/Pasted%20image%2020260426135633.png)
+
 sc.exe - herramienta para controlar servicios de Windows
 Permite:
 - iniciar servicios (`start`)
@@ -130,15 +141,18 @@ Permite:
 - contexto usuario IEUser (no SYSTEM directamente aquí)
 
 ![Pasted image 20260427082736](../Fotos/Pasted%20image%2020260427082736.png)
+
 🔥 El servicio fue utilizado como mecanismo de ejecución temporal: se inicia, se detiene y luego se elimina completamente del sistema
 
 ![Pasted image 20260427083304](../Fotos/Pasted%20image%2020260427083304.png)
+
 *Se intuye*
 1. Se crea persistencia (Run key)
 2. Se ejecuta lo necesario
 3. Se elimina la persistencia
 
 ![Pasted image 20260427084114](../Fotos/Pasted%20image%2020260427084114.png)
+
  ⚙️ `/v "Atomic Red Team"`
 👉 nombre del valor
 ⚙️ `/d C:\Path\AtomicRedTeam.exe`
@@ -154,6 +168,7 @@ Elevación de privilegios previa
 - ejecución como admin
 
 ![Pasted image 20260427094215](../Fotos/Pasted%20image%2020260427094215.png)
+
 🔥 Se está **compilando código C# (T1121.cs) para generar una DLL en tiempo real**
 
 ⚙️ `csc.exe`
@@ -172,6 +187,7 @@ necesaria para funcionalidades COM (muy importante aquí)
 
 
 ![Pasted image 20260427085549](../Fotos/Pasted%20image%2020260427085549.png)
+
 `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx`
 🔥 ejecuta cosas **una sola vez** en el siguiente inicio
 👉 persistencia a nivel **sistema completo**
@@ -180,6 +196,7 @@ necesaria para funcionalidades COM (muy importante aquí)
 🔴 Se está configurando la ejecución automática de una DLL en el próximo arranque del sistema
 
 ![Pasted image 20260427093632](../Fotos/Pasted%20image%2020260427093632.png)
+
  ¿QUÉ ES `regasm.exe`?
 👉 **.NET Assembly Registration Utility**
 Sirve para **registrar o desregistrar DLLs .NET** en el sistema (COM)
@@ -190,6 +207,7 @@ Sirve para **registrar o desregistrar DLLs .NET** en el sistema (COM)
 🔥 El objetivo de eliminar (o desregistrar) la DLL es **borrar rastros y evitar que siga activa en el sistema** Sin mayor contexto por ahora
 
 ![Pasted image 20260427101533](../Fotos/Pasted%20image%2020260427101533.png)
+
 🔥 Si ves:
 - `regasm /U`
 - `del .dll`
@@ -197,9 +215,11 @@ Sirve para **registrar o desregistrar DLLs .NET** en el sistema (COM)
 
 ----------------------------
 ![Pasted image 20260427102704](../Fotos/Pasted%20image%2020260427102704.png)
+
 🔥 el atacante está probando múltiples formas de ejecutar la DLL
 
 ![Pasted image 20260427103615](../Fotos/Pasted%20image%2020260427103615.png)
+
 🔥 Engaña al usuario con un popup  
 🔥 el usuario escribe su contraseña  
 🔥 el script la roba
@@ -214,6 +234,7 @@ powershell -command {
 ![Pasted image 20260427140701](../Fotos/Pasted%20image%2020260427140701.png)
 
 ![Pasted image 20260427141324](../Fotos/Pasted%20image%2020260427141324.png)
+
 1 → 🔥 ACTIVADO
 “inyección de DLL global en procesos → persistencia + evasión”
 Se configuró ejecución automática de DLLs mediante AppInit → persistencia + ejecución
@@ -232,13 +253,16 @@ AppInit_DLLs = C:\Tools\MessageBox64.dll
 👉 ✔️ persistencia real
 
 ![Pasted image 20260427142746](../Fotos/Pasted%20image%2020260427142746.png)
+
 🔹 `reg.exe import`
 👉 importa un archivo `.reg` al registro
 **cargando configuraciones de registro predefinidas desde un archivo externo**
 
 -----------
 1. *Preparación (Impact / Defense Evasion)*
+
 ![Pasted image 20260427143829](../Fotos/Pasted%20image%2020260427143829.png)
+
 🔥 1. `vssadmin.exe delete shadows /all /quiet`
 
 👉 **Qué es:**
@@ -263,11 +287,13 @@ AppInit_DLLs = C:\Tools\MessageBox64.dll
 - **T1490 – Inhibit System Recovery**
 
 Luego de este evento saltaron estas dos , mas abajo hay mas detalle
+
 ![Pasted image 20260427150239](../Fotos/Pasted%20image%2020260427150239.png)
 
 ----
 
 ![Pasted image 20260427144541](../Fotos/Pasted%20image%2020260427144541.png)
+
 🔥 2. `wbadmin.exe delete catalog -quiet`
 
 👉 **Qué es:**
@@ -286,6 +312,7 @@ Luego de este evento saltaron estas dos , mas abajo hay mas detalle
 - **T1490 – Inhibit System Recovery**
 
 ![Pasted image 20260427145716](../Fotos/Pasted%20image%2020260427145716.png)
+
 🔥 3. `bcdedit.exe /set {default} recoveryenabled no`
 
 👉 **Qué es:**
@@ -300,6 +327,7 @@ Luego de este evento saltaron estas dos , mas abajo hay mas detalle
 💥 impedir que el sistema arranque en modo recuperación
 
 ![Pasted image 20260427145839](../Fotos/Pasted%20image%2020260427145839.png)
+
 🔥 4. `bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures`
 
 👉 **Qué hace:**
@@ -332,7 +360,9 @@ Después de `vssadmin` aparecen:
 
 ----
 2. *Limpieza de evidencias*
+
 ![Pasted image 20260428092723](../Fotos/Pasted%20image%2020260428092723.png)
+
  ❌ `del file.txt`
 - elimina referencia del archivo
 - se puede recuperar (forense)
@@ -346,7 +376,9 @@ Subtécnica:
 - **T1070.004 – File Deletion**
 
 3. *Descarga payload
+
 ![Pasted image 20260428093613](../Fotos/Pasted%20image%2020260428093613.png)
+
  ¿Qué es `bitsadmin.exe`?
 👉 **BITS (Background Intelligent Transfer Service)**  
 Herramienta de Windows BITS
@@ -364,6 +396,7 @@ Aunque aquí sea un `.md` disfrazado como `.ps1`, lo importante es el comportami
 - traer herramientas o payloads al sistema comprometido
 
 ![Pasted image 20260428094706](../Fotos/Pasted%20image%2020260428094706.png)
+
 👉 Cuando termine la descarga:
 - ejecuta `notepad.exe`
 - con argumento `bitsadmin_flag.ps1`
@@ -371,6 +404,7 @@ Aunque aquí sea un `.md` disfrazado como `.ps1`, lo importante es el comportami
 - **T1197 – BITS Persistence / Execution**
 
 ![Pasted image 20260428100946](../Fotos/Pasted%20image%2020260428100946.png)
+
 📌 Qué es esto:
 - `cscript.exe` → ejecuta VBScript
 - `pubprn.vbs` → script legítimo de Windows
@@ -392,9 +426,11 @@ En tu caso, highlights:
 **esto es 100% malicioso o simulación de ataque**
 
 ![Pasted image 20260428142715](../Fotos/Pasted%20image%2020260428142715.png)
+
 🔥“Conéctate al disco C de la máquina Target usando credenciales de administrador”
 
 ![Pasted image 20260428144103](../Fotos/Pasted%20image%2020260428144103.png)Esto hace:
+
 `dir c:\ /b /s .key`
 - Busca archivos recursivamente (`/s`)
 - En todo el disco `C:\`
@@ -405,7 +441,9 @@ En tu caso, highlights:
 
 
 Multiples
+
 ![Pasted image 20260428151038](../Fotos/Pasted%20image%2020260428151038.png)
+
 `reg query <ruta_del_registro>`
 🔎 Significa:
 👉 Consulta (read) claves del registro de Windows
@@ -461,7 +499,9 @@ userinit.exe
 Está **enumerando (revisando) claves del registro asociadas al arranque de Windows** para identificar **mecanismos de persistencia existentes o posibles puntos donde ejecutar código automáticamente**.
 
 --------------
+
 ![Pasted image 20260428151729](../Fotos/Pasted%20image%2020260428151729.png)
+
 👉 **`reg save HKLM\Security security.hive`**
 🧠 Traducción tipo profe:
 - **`reg save`** → comando para **guardar una copia del registro**
@@ -476,6 +516,7 @@ Está **enumerando (revisando) claves del registro asociadas al arranque de Wind
 --------
 
 ![Pasted image 20260428213012](../Fotos/Pasted%20image%2020260428213012.png)
+
 🔹 `reg save HKLM\SAM sam.hive`
 - **SAM (Security Account Manager)**  
     👉 Base de datos donde Windows guarda **hashes de contraseñas locales**
@@ -486,6 +527,7 @@ Está **enumerando (revisando) claves del registro asociadas al arranque de Wind
 🚨 **ALTAMENTE MALICIOSO**
 
 ![Pasted image 20260428213905](../Fotos/Pasted%20image%2020260428213905.png)
+
 `cmd.exe /c "dir c: /b /s .docx | findstr /e .docx"`
 📚 Desglose rápido
 - **`cmd.exe /c`**
@@ -500,9 +542,11 @@ Está **enumerando (revisando) claves del registro asociadas al arranque de Wind
 👉 **Está buscando documentos Word en todo el sistema para posible recolección de información sensible.**
 
 ![Pasted image 20260428215318](../Fotos/Pasted%20image%2020260428215318.png)
+
 👉 **Ejecuta una búsqueda recursiva de archivos `.docx` en todo el disco usando un entorno de cmd controlado y sin interferencias.**
 
 ![971](../Fotos/Pasted%20image%2020260428214929.png)
+
 📚 Desglose tipo examen
 - **`for /R c:`**
     - Recorre recursivamente todo el disco C  
@@ -516,7 +560,10 @@ Está **enumerando (revisando) claves del registro asociadas al arranque de Wind
  “Por cada archivo .docx en todo el disco, cópialo a una carpeta centralizada”
 
 ---------
-![Pasted image 20260429120919](../Fotos/Pasted%20image%2020260429120919.png) ![Pasted image 20260429121827](../Fotos/Pasted%20image%2020260429121827.png)
+![Pasted image 20260429120919](../Fotos/Pasted%20image%2020260429120919.png) 
+
+![Pasted image 20260429121827](../Fotos/Pasted%20image%2020260429121827.png)
+
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`
 👉 Se usa para:
 - Debugging legítimo ❗
@@ -555,6 +602,7 @@ En la pantalla de login:
 - Corren con privilegios **SYSTEM**
 
 ![Pasted image 20260429122558](../Fotos/Pasted%20image%2020260429122558.png)
+
 📚 Término clave: `sethc.exe`
 👉 **`sethc.exe` (Sticky Keys / Teclas especiales)**
 - Función de accesibilidad
@@ -568,6 +616,7 @@ En la pantalla de login:
 👉 **Está secuestrando Sticky Keys para abrir una consola con privilegios SYSTEM desde la pantalla de login.**
 
 ![Pasted image 20260429123041](../Fotos/Pasted%20image%2020260429123041.png)
+
 📚 Término clave: `utilman.exe`
 👉 **`utilman.exe` (Utility Manager / Administrador de accesibilidad)**
 - Botón de accesibilidad en la pantalla de login
@@ -579,6 +628,7 @@ En la pantalla de login:
 “Cuando alguien haga clic en el botón de accesibilidad en login, en vez de abrir utilman → abre cmd.exe”
 
 ![Pasted image 20260429123216](../Fotos/Pasted%20image%2020260429123216.png)
+
 📚 Término: `magnify.exe`
 👉 **`magnify.exe` (Magnifier / Lupa de Windows)**
 - Herramienta de accesibilidad
@@ -593,6 +643,7 @@ Ahora tiene:
 - `magnify.exe` → lupa
 
 ![Pasted image 20260429163243](../Fotos/Pasted%20image%2020260429163243.png)
+
 📚 Término: `narrator.exe`
 👉 **`narrator.exe` (Narrador de Windows)**
 - Herramienta de accesibilidad (lee texto en voz alta)
@@ -602,6 +653,7 @@ Ahora tiene:
 👉 **Está creando múltiples puntos de acceso SYSTEM pre-login abusando de herramientas de accesibilidad mediante IFEO.**
 
 ![Pasted image 20260429163339](../Fotos/Pasted%20image%2020260429163339.png)
+
 👉 **Image File Execution Options (IFEO)**
 
 Todos esos programas tienen algo en común:
@@ -625,6 +677,7 @@ Porque:
 👉 _Persistence + Privilege Escalation mediante IFEO hijacking de binarios accesibles en Winlogon_
 
 ![Pasted image 20260429170920](../Fotos/Pasted%20image%2020260429170920.png)
+
 📚 `atbroker.exe`
 👉 **Nombre completo:**
 - **Inglés:** _Assistive Technology Broker_
@@ -644,7 +697,9 @@ Porque:
 - También puede activarse desde la pantalla de login indirectamente
 
 --------------
+
 ![Pasted image 20260430094534](../Fotos/Pasted%20image%2020260430094534.png)
+
 👉 **Ejecuta código remoto usando `msxsl.exe` descargando XML/XSL desde Internet.**
 
 ![Pasted image 20260430100153](../Fotos/Pasted%20image%2020260430100153.png)
@@ -657,6 +712,7 @@ wmic.exe process /FORMAT:list
 👉 Está enumerando procesos.
 
 ![Pasted image 20260430100334](../Fotos/Pasted%20image%2020260430100334.png)
+
 👉 Está ejecutando código remoto mediante `wmic` usando un script XSL para evadir controles.
 
 🔥 Indicadores claros de malicia
@@ -666,22 +722,28 @@ wmic.exe process /FORMAT:list
 - AtomicRedTeam path ✔️ (simulación adversaria)
 
 ![Pasted image 20260430101022](../Fotos/Pasted%20image%2020260430101022.png)
+
 👉 **Qué hace (1 frase):** Enumera dominios en la red (reconocimiento de red).
 
 ![Pasted image 20260430101040](../Fotos/Pasted%20image%2020260430101040.png)
+
 👉 **Qué hace (1 frase):** Lista equipos compartidos en la red (descubrimiento lateral).
 
 👉 **El atacante pasa de persistencia local a reconocimiento de red y ejecución remota usando LOLBins.**
 
 ![Pasted image 20260430102133](../Fotos/Pasted%20image%2020260430102133.png)
+
 ![Pasted image 20260430102222](../Fotos/Pasted%20image%2020260430102222.png)
+
 👉 Envía **1 paquete ICMP** a la IP `192.168.1.10` y espera máximo **100 ms** por respuesta.
 👉 **Está escaneando la red interna para descubrir hosts activos.**
 
 ![Pasted image 20260430105114](../Fotos/Pasted%20image%2020260430105114.png)
+
 👉 “Muéstrame qué dispositivos conozco en la red sin tener que escanear.”
 
 ![Pasted image 20260430105457](../Fotos/Pasted%20image%2020260430105457.png)
+
 👉 **regsvr32.exe** = herramienta legítima de Windows para registrar DLLs  
 👉 Pero aquí se está usando para **ejecutar un script (.sct)**
 - `regsvr32.exe` → binario legítimo (LOLBin)
@@ -691,6 +753,7 @@ wmic.exe process /FORMAT:list
 MITRE: 👉 T1218.010
 
 ![Pasted image 20260430105601](../Fotos/Pasted%20image%2020260430105601.png)
+
 🚨 Evidencia de ejecución real
 Fíjate en esto:
 ```
@@ -701,6 +764,7 @@ C:\Windows\System32\calc.exe
 👉 **El archivo RegSvr32.sct contiene código que se ejecutó exitosamente**
 
 ![Pasted image 20260430110220](../Fotos/Pasted%20image%2020260430110220.png)
+
 🧠 ¿Qué cambia respecto al anterior?
 Antes:
 - Ejecutabas un `.sct` **local**
@@ -735,6 +799,7 @@ Porque:
 calc.exe -> 👉 “Demostrar que logré ejecutar código.”
 
 ![Pasted image 20260430111837](../Fotos/Pasted%20image%2020260430111837.png)
+
 🧠 ¿Qué hace?
 👉 Registra (o ejecuta) una DLL en el sistema usando  
 regsvr32.exe
@@ -744,9 +809,11 @@ regsvr32.exe
 - `AllTheThingsx86.dll` → DLL a cargar
 
 ![Pasted image 20260430112712](../Fotos/Pasted%20image%2020260430112712.png)
+
 👉 Está **comprobando la arquitectura del sistema**
 
 ![Pasted image 20260430113937](../Fotos/Pasted%20image%2020260430113937.png)
+
 📚 Qué es exactamente
 👉 `UserInitMprLogonScript` =  
 **variable de entorno especial que Windows evalúa durante el logon**
@@ -760,6 +827,7 @@ Cuando el usuario inicia sesión:
 👉 “Se configura un comando en el registro para ejecutarse automáticamente en cada inicio de sesión del usuario.”
 
 ![Pasted image 20260430114116](../Fotos/Pasted%20image%2020260430114116.png)
+
 🧠 ¿Qué hace?
 👉 Usa WinRAR (comando `rar`) para:
 - `a` → **add** (crear archivo comprimido)
@@ -779,6 +847,7 @@ Envía:
 👉 “El atacante está agrupando documentos para facilitar su exfiltración.”
 
 ![Pasted image 20260430114411](../Fotos/Pasted%20image%2020260430114411.png)
+
 🧠 ¿Qué hace cada uno?
 
 1️⃣ `-encode`
@@ -831,6 +900,7 @@ Envía:
 - que no rompe el archivo ✔️
 
 ![Pasted image 20260430120655](../Fotos/Pasted%20image%2020260430120655.png)
+
 🔴 Qué ocurre (resumen rápido)
 1. Copian certutil.exe a `%TEMP%`
 2. Lo renombran a algo raro (`tcm.tmp`)
@@ -850,6 +920,7 @@ copy %windir%\system32\certutil.exe %temp%\tcm.tmp
 ```
 
 ![Pasted image 20260430122316](../Fotos/Pasted%20image%2020260430122316.png)
+
 2️⃣ Ejecución encubierta
 ```
 %temp%\tcm.tmp -decode c:\file.exe file.txt
@@ -868,6 +939,7 @@ copy %windir%\system32\certutil.exe %temp%\tcm.tmp
 👉 La renombra para que **no sea reconocida como esa herramienta específica**
 
 ![Pasted image 20260430124701](../Fotos/Pasted%20image%2020260430124701.png)
+
 🧠 ¿Qué es `fltmc.exe`?
 👉 fltmc.exe  
 Herramienta de Windows para gestionar **drivers de filtros** (file system filter drivers).
@@ -887,6 +959,7 @@ Traducción directa:
 👉 “Apaga Sysmon”
 
 ![Pasted image 20260430125041](../Fotos/Pasted%20image%2020260430125041.png)
+
 🧠 ¿Qué es `appcmd.exe`?
 👉 appcmd.exe  
 Herramienta para administrar Internet Information Services (IIS).
@@ -912,6 +985,7 @@ Herramienta para administrar Internet Information Services (IIS).
 - El código malicioso se ejecuta **dentro de un proceso legítimo**
 
 ![Pasted image 20260430130713](../Fotos/Pasted%20image%2020260430130713.png)
+
 🔍 ¿Qué significa?
 - `cmd.exe /c`  
     👉 Ejecuta un comando y termina (no deja consola abierta).
@@ -932,6 +1006,7 @@ Ese `T1055.exe` de Atomic Red Team simula:
 - Ejecutar código desde ese proceso “legítimo”
 
 ![Pasted image 20260430131550](../Fotos/Pasted%20image%2020260430131550.png)
+
 - `at 13:20`  
     👉 Ejecuta algo a las **13:20**
 - `/interactive`  
@@ -942,6 +1017,7 @@ Ese `T1055.exe` de Atomic Red Team simula:
 👉 Está programando que a las 13:20 se abra una consola interactiva.
 
 ![Pasted image 20260430131934](../Fotos/Pasted%20image%2020260430131934.png)
+
  📖 Desglose:
 - **`SCHTASKS`** → herramienta para gestionar tareas programadas
 - `/Create` → crear tarea
@@ -954,6 +1030,7 @@ Ese `T1055.exe` de Atomic Red Team simula:
 👉 Ejecutar `cmd.exe` en el futuro → **ejecución diferida controlada**
 
 ![Pasted image 20260430132337](../Fotos/Pasted%20image%2020260430132337.png)
+
 📖 Esto agrega:
 - `/RU DOMAIN\user` → ejecuta como otro usuario
 - `/RP password` → usa credenciales
@@ -967,6 +1044,7 @@ Subtécnicas:
 - `T1053.005` → Scheduled Task (Windows)
 
 ![Pasted image 20260430135404](../Fotos/Pasted%20image%2020260430135404.png)
+
 🔹 ¿Qué es `pcalua.exe`?
 📌 Nombre:
 - **Program Compatibility Assistant**
@@ -978,9 +1056,11 @@ Subtécnicas:
 👉 Esto está mal formado → probablemente prueba/fuzzing o test del Atomic
 
 ![Pasted image 20260430135426](../Fotos/Pasted%20image%2020260430135426.png)
+
 👉 Intenta ejecutar algo llamado "Java"
 
 ![Pasted image 20260430135452](../Fotos/Pasted%20image%2020260430135452.png)
+
 - Ejecuta un **.cpl (Control Panel item)**
 - `javacpl.cpl` → panel de control de Java
 
@@ -1007,6 +1087,7 @@ Subtécnica:
 “Está usando un binario legítimo para ejecutar código de forma indirecta (proxy execution)”
 
 ![Pasted image 20260430140706](../Fotos/Pasted%20image%2020260430140706.png)
+
 🔥 ¿Qué ocurre realmente?
 👉 `forfiles` encuentra `notepad.exe`  
 👉 Por cada match ejecuta:
@@ -1032,6 +1113,7 @@ Ejecutar un comando arbitrario usando una herramienta legítima
 - Lo ejecutas **a través de otro binario**
 
 ![Pasted image 20260430141136](../Fotos/Pasted%20image%2020260430141136.png)
+
 - `forfiles.exe` ejecutando comandos raros
 - Uso de `:` en rutas (ADS)
 - Procesos hijos inesperados:
@@ -1057,6 +1139,7 @@ normal.dll:evil.exe
 ✔️ “El atacante demuestra ejecución de código mediante un LOLBin” → perfecto (calc es ejemplo podria ser otra cosa como es un lab sample)
 
 ![Pasted image 20260430141307](../Fotos/Pasted%20image%2020260430141307.png)
+
 Muestra **la identidad del usuario actual** en el sistema
 “Está haciendo reconocimiento para decidir siguientes pasos (movimiento lateral, privilegios, persistencia)”
 
@@ -1081,6 +1164,7 @@ Muestra **la identidad del usuario actual** en el sistema
 - Técnica: **OS Credential Dumping (T1003)**
 
 ![Pasted image 20260430141737](../Fotos/Pasted%20image%2020260430141737.png)
+
 **WCE = Windows Credentials Editor**
 - Extrae credenciales en memoria (como hace Mimikatz)
 - Output → `output.txt`
@@ -1089,6 +1173,7 @@ Muestra **la identidad del usuario actual** en el sistema
 **Credential Dumping (robo de credenciales)**
 
 ![Pasted image 20260430141822](../Fotos/Pasted%20image%2020260430141822.png)
+
  📌 Concepto: SAM
 - **SAM (Security Account Manager)** = base de datos local de usuarios
 - Contiene hashes de contraseñas
@@ -1097,6 +1182,7 @@ Muestra **la identidad del usuario actual** en el sistema
 - Guarda una copia del registro SAM en un archivo
 
 ![Pasted image 20260430142426](../Fotos/Pasted%20image%2020260430142426.png)
+
 - Necesario para poder **desencriptar los hashes del SAM**
 
 👉 Relación importante (esto es examen):
@@ -1104,6 +1190,7 @@ Muestra **la identidad del usuario actual** en el sistema
 - SAM + SYSTEM = puedes crackear hashes offline
 
 ![Pasted image 20260430142507](../Fotos/Pasted%20image%2020260430142507.png)
+
 Contiene secretos adicionales (LSA secrets)
 
 👉 Todo esto junto:
@@ -1114,6 +1201,7 @@ Contiene secretos adicionales (LSA secrets)
 ➡️ = **Full credential extraction offline**
 
 ![Pasted image 20260430142547](../Fotos/Pasted%20image%2020260430142547.png)
+
 📌 Concepto: LSASS
 - **LSASS (Local Security Authority Subsystem Service)**
 - Proceso donde viven credenciales en memoria
@@ -1131,6 +1219,7 @@ Contiene secretos adicionales (LSA secrets)
 👉 **Técnica clave: Credential Dumping (T1003)**
 
 ![Pasted image 20260430142645](../Fotos/Pasted%20image%2020260430142645.png)
+
  📌 Concepto: NTDS.dit
 - Base de datos de Active Directory
 
@@ -1141,6 +1230,7 @@ Contiene secretos adicionales (LSA secrets)
 - Obtener TODOS los usuarios del dominio
 
 ![Pasted image 20260430142741](../Fotos/Pasted%20image%2020260430142741.png)
+
  📌 Concepto: VSS (Volume Shadow Copy)
 - Snapshot del disco
 
@@ -1148,6 +1238,7 @@ Contiene secretos adicionales (LSA secrets)
 - Copiar archivos bloqueados (como NTDS.dit)
 
 ![Pasted image 20260430142852](../Fotos/Pasted%20image%2020260430142852.png)
+
 `GLOBALROOT\Device\HarddiskVolumeShadowCopy1`
 Concepto: **Volume Shadow Copy (VSS)**
 - Snapshot del disco
@@ -1175,6 +1266,7 @@ Concepto: **Volume Shadow Copy (VSS)**
 **Es el “corazón” del dominio**
 
 ![Pasted image 20260430143347](../Fotos/Pasted%20image%2020260430143347.png)
+
  🔴 1. ¿Qué es `SYSTEM`?
  📌 Concepto: **SYSTEM Hive (Registro de Windows)**
 - Parte del registro (`HKLM\SYSTEM`)
@@ -1196,6 +1288,7 @@ Necesitas:
 - `SYSTEM` → clave para descifrarlos
 
 ![Pasted image 20260430143623](../Fotos/Pasted%20image%2020260430143623.png)
+
 👉 Está **extrayendo el registro del sistema**.
 Y si lo conectas con eventos anteriores que mostraste:
 - `reg save HKLM\SAM`
@@ -1206,7 +1299,10 @@ Y si lo conectas con eventos anteriores que mostraste:
 💥 Esto forma un patrón clarísimo:
 🧠 ATAQUE: Credential Dumping
 
-![Pasted image 20260430143818](../Fotos/Pasted%20image%2020260430143818.png)## 📌 Concepto: **rundll32.exe**
+![Pasted image 20260430143818](../Fotos/Pasted%20image%2020260430143818.png)
+
+## 📌 Concepto: **rundll32.exe**
+
 - Ejecuta funciones dentro de DLLs
 - Muy usado por Windows… y también por atacantes
 
@@ -1221,7 +1317,9 @@ Y si lo conectas con eventos anteriores que mostraste:
 
 👉 Es ruido comparado con lo anterior (LSASS, NTDS, etc.)
 
-![Pasted image 20260430143921](../Fotos/Pasted%20image%2020260430143921.png)- Abre un archivo `.md` (markdown)
+![Pasted image 20260430143921](../Fotos/Pasted%20image%2020260430143921.png)
+
+- Abre un archivo `.md` (markdown)
 - Ruta:
     - `AtomicRedTeam`
     - técnica `T1003`
