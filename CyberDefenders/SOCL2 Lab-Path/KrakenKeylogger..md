@@ -62,7 +62,6 @@ print(output_string)
 
 ¿Cuál es la ruta completa del archivo malicioso que el atacante utilizó para lograr persistencia?
 
-
 ![](../../Fotos/Pasted%20image%2020260708175755.png)
 
 **Respuesta:** C:\Users\OMEN\AppData\Local\Temp\templet.lnk
@@ -77,12 +76,6 @@ print(output_string)
 
 ¿Cuál es la dirección IP del atacante?
 
-En este caso lo hemos realizado revisando el archivo `ad.trace` manualmente pero la idea es utilizar alguna herramienta como **Timeline Explorer**
+![](../../Fotos/Pasted%20image%2020260709010358.png)
 
-![](../../Fotos/Pasted%20image%2020260709004034.png)
-
-![](../../Fotos/Pasted%20image%2020260709004148.png)
-
-![](../../Fotos/Pasted%20image%2020260709004244.png)
-
-**Respuesta:** 57.128.101.75
+**Respuesta:** 77.232.122.31
