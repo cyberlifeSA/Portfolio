@@ -2,7 +2,7 @@
 - Tags: #elasticsearch 
 - --
 **TRYACKME**
-## 🎯**Objetivos completados del laboratorio
+## 🎯**Objetivos completados del laboratorio**
 1. **Ejecución inicial del adjunto malicioso**  
     El CEO abrió **`ProjectFinancialSummary_Q3.pdf`**, iniciando la **Stage 1 payload** con **PID 6392** en `WKSTN-0051` (10.10.155.159 / evan.hutchinson).
 2. **Implantación del payload en disco**  
@@ -38,7 +38,7 @@
 15. **Preparación para impacto final (ransomware)**  
     Se descargó el binario de ransomware desde:  
     
-    `http://ff.sillytechninja.io/ransomboogey.exe
+    http://ff.sillytechninja.io/ransomboogey.exe
 
 ---
 *Pregunta 1*
